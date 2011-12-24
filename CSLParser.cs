@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using LibCSL.Core;
+using LibCSL.Actions;
 using Microsoft.Xna.Framework;
 
 namespace LibCSL
@@ -316,7 +317,7 @@ namespace LibCSL
                     string id;
                     FinishedID finishedOn;
                     int time;
-                    List<LibCSL.Core.Action> actions;
+                    List<LibCSL.Actions.Action> actions;
                     Event foundEvent;
 
                     extractEventHeaderFromLine(curLine, out id, out finishedOn, out time);
@@ -438,14 +439,16 @@ namespace LibCSL
             #endregion
         }
 
-        private void extractActions(StreamReader file, out List<Core.Action> actions)
+        private void extractActions(StreamReader file, out List<LibCSL.Actions.Action> actions)
         {
             string curLine;
             bool foundAllEvents = false;
+            actions = new List<Actions.Action>();
 
             while (!foundAllEvents)
             {
-                
+                curLine = file.ReadLine();
+
             }
         }
 
