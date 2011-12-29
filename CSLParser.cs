@@ -458,6 +458,13 @@ namespace LibCSL
                     actions[actionCount].parse(curLine);
                     actionCount++;
                 }
+
+                if (curLine.StartsWith("Speak"))
+                {
+                    actions.Add(new SpeakAction());
+                    actions[actionCount].parse(curLine);
+                    actionCount++;
+                }
                 
 
                 
