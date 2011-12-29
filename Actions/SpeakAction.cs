@@ -19,6 +19,7 @@ namespace LibCSL.Actions
             actor = extractActor(curLine, out endPos);
             text = extractText(curLine, ref endPos);
             animation = extractAnimation(curLine, ref endPos);
+            actionType = ActionType.Speak;
 
             Console.WriteLine("Parsed a speak action! " + actor + " will say '" + text + "' with animation " + animation);
         }

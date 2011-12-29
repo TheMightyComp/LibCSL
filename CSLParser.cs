@@ -465,6 +465,13 @@ namespace LibCSL
                     actions[actionCount].parse(curLine);
                     actionCount++;
                 }
+
+                if (curLine.StartsWith("Move"))
+                {
+                    actions.Add(new MoveAction());
+                    actions[actionCount].parse(curLine);
+                    actionCount++;
+                }
                 
 
                 
