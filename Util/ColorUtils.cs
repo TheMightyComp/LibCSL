@@ -9,7 +9,7 @@ namespace LibCSL.Util
     public static class ColorUtils
     {
 
-        public static Dictionary<char, int> hexValuesAsInt = null;
+        private static Dictionary<char, int> hexValuesAsInt = null;
 
         public static Color colorFromHexString(string hexCode)
         {
@@ -62,7 +62,7 @@ namespace LibCSL.Util
 
         }
 
-        public static void AssignHexValues()
+        private static void AssignHexValues()
         {
             hexValuesAsInt = new Dictionary<char, int>();
             hexValuesAsInt.Add('0', 0);

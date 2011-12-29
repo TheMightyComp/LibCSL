@@ -299,7 +299,6 @@ namespace LibCSL
             bool foundAllEvents = false;
             string curLine;
             
-            
             while (!foundAllEvents)
             {
                 curLine = file.ReadLine();
@@ -444,11 +443,24 @@ namespace LibCSL
             string curLine;
             bool foundAllEvents = false;
             actions = new List<Actions.Action>();
+            int actionCount = 0;
 
             while (!foundAllEvents)
             {
                 curLine = file.ReadLine();
 
+                if (string.IsNullOrWhiteSpace(curLine))
+                    continue;
+
+                if (curLine.StartsWith("Fade"))
+                {
+                    actions.Add(new FadeAction());
+                    actions[actionCount].parse(curLine);
+                    actionCount++;
+                }
+                
+
+                
             }
         }
 
