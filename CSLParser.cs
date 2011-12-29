@@ -24,14 +24,15 @@ namespace LibCSL
             string englishName;
             Background background;
             List<Actor> actors;
-            List<Event> events;
+            List<Event> events = new List<Event>();
 
             extractHeader(file, out id, out englishName);
             extractActorsAndBackground(file, out background, out actors);
-            extractEvents(file, out events);
+            extractEvents(file, ref events);
+            Console.WriteLine("Found all events at parseCSL method! There are " + events.Count);
 
 
-            return new Scene(id, englishName, null, actors, background);
+            return new Scene(id, englishName, events, actors, background);
         }
 
         private void extractHeader(StreamReader file, out string id, out string englishName)
@@ -294,7 +295,7 @@ namespace LibCSL
 
         }
 
-        private void extractEvents(StreamReader file, out List<Event> events)
+        private void extractEvents(StreamReader file, ref List<Event> events)
         {
             bool foundAllEvents = false;
             string curLine;
@@ -328,10 +329,23 @@ namespace LibCSL
 
                     extractActions(file, out actions);
 
+                    Console.WriteLine("\n\n\n\n\n");
+                    Console.WriteLine("Found all actions! There are " + actions.Count);
+
+                    Event newEvent = new Event(id, finishedOn, actions);
+                    Console.WriteLine("Added new event! " + id + finishedOn.ToString() + actions.Count.ToString());
+                    events.Add(newEvent);
+
+                }
+
+                else if (curLine.StartsWith("ENDCSL"))
+                {
+                    foundAllEvents = true;
+                    Console.WriteLine("Found all events! There are " + events.Count);
                 }
             }
 
-            events = new List<Event>(2);
+           
         }
 
         private void extractEventHeaderFromLine(string curLine, out string id, out FinishedID finishedOn, out int time)
@@ -472,6 +486,9 @@ namespace LibCSL
                     actions[actionCount].parse(curLine);
                     actionCount++;
                 }
+
+                if (curLine.StartsWith("EndEvent"))
+                    foundAllEvents = true;
                 
 
                 

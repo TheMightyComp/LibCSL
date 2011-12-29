@@ -9,9 +9,9 @@ namespace LibCSL.Core
     {
         public string id;  //The events unique identifier
         public FinishedID finishedOn;  //When the event finishes
-        public List<Action> actions;  //A list of all the actions in the events
+        public List<Actions.Action> actions;  //A list of all the actions in the events
 
-        public Event (string ID, FinishedID FinishedOn, List<Action> Actions)
+        public Event (string ID, FinishedID FinishedOn, List<Actions.Action> Actions)
         {
             id = ID;
             finishedOn = FinishedOn;

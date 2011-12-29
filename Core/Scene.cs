@@ -18,20 +18,24 @@ namespace LibCSL.Core
         {
             id = ID;
             englishName = EnglishName;
+            Console.WriteLine("Recieved event list! There are " + Events.Count);
 
             int eventCount = 0;
-            /*foreach (Event curEvent in Events)  //Assign each event without an ID its numerical order in the scene
+            events = new Dictionary<string, Event>();
+
+            foreach (Event curEvent in Events)  //Assign each event without an ID its numerical order in the scene
             {
-                if (curEvent.id.Length != 0)
-                    curEvent.id = eventCount.ToString();
-                
+                curEvent.id = eventCount.ToString();
+
+                Console.WriteLine("Parsing event " + curEvent.id);
                 eventCount++;
 
                 events.Add(curEvent.id, curEvent);  //Add curEvent to the dictionary, using its ID as a key.
             }
-             */
+            
 
             actors = new Dictionary<string, Actor>();
+
             foreach (Actor actor in Actors)
             {
                 actors.Add(actor.name, actor);

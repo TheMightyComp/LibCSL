@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace LibCSL.Actions
 {
-    class MoveAction : Actions.Action
+    public class MoveAction : Actions.Action
     {
         public string actor;
         public Vector2 target;

@@ -6,11 +6,11 @@ using LibCSL.Core;
 
 namespace LibCSL.Actions
 {
-    class SpeakAction : Actions.Action
+    public class SpeakAction : Actions.Action
     {
-        string actor;
-        string text;
-        string animation;
+        public string actor;
+        public string text;
+        public string animation;
 
         public override void parse(string curLine)
         {
