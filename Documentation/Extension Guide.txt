@@ -1,0 +1,51 @@
+Creating additional actions for LibCSL to parse and render is simple.  The steps are listed below.
+
+1.  Inherit a class from LibcSL.Actions.Action.
+2.  Override the parse method
+3.  Modify CSLParser.cs
+4.  Override the execute method
+
+
+==========================================
+	Writing an Action Parser
+==========================================
+
+Try to keep the syntax for your new action similar
+to the default actions.  If it includes too many
+different variables, try splitting it into two
+actions.  Remember - simplicity is one of LibCSL's
+goals!
+
+All action parsers should override the parse method,
+inherited from Action.cs.  Your method should accept
+a single string - the entirety of the line containing
+the action. The techniques, etc. that you use to write 
+your parser are totally up to you, so just use whatever 
+works, and try to keep it fast and efficient.
+
+
+
+==========================================
+	Modifying CSLParser.cs
+==========================================
+
+To make the main parser accept your action when it
+is read, you need to modify the extractActions method.
+Add an "if" statement like the following, replacing
+the necessary parts for your custom action.
+
+
+	If (curLine.StartsWith("ActionKeyWord"))
+	{
+		actions.Add(new ActionName());
+		actions[actionCount].parse(curLine);
+		actionCount++
+	}
+
+
+==========================================
+	Writing the Execute Method
+==========================================
+
+Guide coming as soon as I write the 
+renderer!
