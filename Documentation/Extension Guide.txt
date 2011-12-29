@@ -39,7 +39,7 @@ the necessary parts for your custom action.
 	{
 		actions.Add(new ActionName());
 		actions[actionCount].parse(curLine);
-		actionCount++
+		actionCount++;
 	}
 
 
