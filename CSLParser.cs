@@ -165,8 +165,7 @@ namespace LibCSL
                     }
 
                     foundBackgroundDeclaration = true;
-                    Background newBack = new Background(backgroundName, null);
-                    background = new Background(backgroundName, null);
+                    background = new Background(backgroundName);
 
                 }
             }
