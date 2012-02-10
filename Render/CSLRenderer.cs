@@ -23,7 +23,14 @@ namespace LibCSL.Render
         public void render(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
+            
             spriteBatch.Draw(scene.background.texture, new Rectangle(0, 0, 800, 600), Color.White);
+            
+            foreach (KeyValuePair<String, Actor> curActor in scene.actors)
+            {
+                curActor.Value.Draw(spriteBatch);
+            
+            }
             spriteBatch.End();
         }
 
@@ -31,8 +38,12 @@ namespace LibCSL.Render
         {
             this.scene = scene;
             curEvent = 0;
+            scene.background.loadTexture(Content);
+            foreach (KeyValuePair<String, Actor> curActor in scene.actors)
+            {
+                curActor.Value.loadTexture(Content);
 
-            scene.background.texture = Content.Load<Texture2D>("Textures/Backgrounds/" + scene.background.name);
+            }
         }
     }
 }

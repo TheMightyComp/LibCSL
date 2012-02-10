@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LibCSL;
+using LibCSL.Actions;
+using LibCSL.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -9,24 +12,20 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using LibCSL.Util;
 
-namespace LibCSL.Core
+namespace LibCSL.Render
 {
-    public class Background
+    class Speech
     {
-        public Texture2D texture;
-        public string name;
+        SpeakAction action;
 
-        public Background(string Name)
+        public Speech(SpeakAction action)
         {
-            name = Name;
+            this.action = action;
         }
 
-        public void loadTexture(ContentManager Content)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            texture = Content.Load<Texture2D>(Globals.getValue("BackgroundPath") + name);
         }
-
     }
 }
