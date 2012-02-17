@@ -7,15 +7,15 @@ namespace LibCSL.Core
 {
     public class Event
     {
-        public string id;  //The events unique identifier
         public FinishedID finishedOn;  //When the event finishes
         public List<Actions.Action> actions;  //A list of all the actions in the events
+        public int time;
 
-        public Event (string ID, FinishedID FinishedOn, List<Actions.Action> Actions)
+        public Event (FinishedID FinishedOn, List<Actions.Action> Actions, int Time)
         {
-            id = ID;
             finishedOn = FinishedOn;
             actions = Actions;
+            time = Time;
         }
 
     }

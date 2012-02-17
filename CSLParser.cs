@@ -331,7 +331,7 @@ namespace LibCSL
                     Console.WriteLine("\n\n\n\n\n");
                     Console.WriteLine("Found all actions! There are " + actions.Count);
 
-                    Event newEvent = new Event(id, finishedOn, actions);
+                    Event newEvent = new Event(finishedOn, actions, time);
                     Console.WriteLine("Added new event! " + id + finishedOn.ToString() + actions.Count.ToString());
                     events.Add(newEvent);
 
@@ -355,28 +355,7 @@ namespace LibCSL
             finishedOn = FinishedID.onAction;
             time = 0;
 
-            #region Extract the event ID
-
-            bool foundID = false;
-            id = "";
-            while (!foundID)
-            {
-                if (charArray[curChar] == ' ')
-                {
-                    Console.WriteLine("Found whitespace and the entire event name:");
-                    Console.WriteLine(id);
-                    foundID = true;
-                }
-                else
-                {
-                    id += charArray[curChar];
-                    Console.WriteLine("Added character '" + charArray[curChar] + "' to event name!");
-                }
-
-                curChar++;
-            }
-
-            #endregion
+       
 
             #region Extract the finish identifier
 
