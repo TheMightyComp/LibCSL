@@ -99,6 +99,15 @@ namespace LibCSL.Render
                 curActor.Value.Draw(spriteBatch);
             }
 
+            foreach (Actions.Action curAction in curEvent.actions)
+            {
+                if (curAction.actionType == Actions.ActionType.Speak)
+                {
+                    Actions.SpeakAction speak = curAction as Actions.SpeakAction;
+                    speak.Draw(font, speechTex, spriteBatch);
+                }
+            }
+
             spriteBatch.End();
         }
 

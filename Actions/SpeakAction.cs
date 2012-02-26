@@ -20,87 +20,51 @@ namespace LibCSL.Actions
         public string text;
         public string animation;
 
-
-
         public override void parse(string curLine)
         {
-            int endPos = 0;
+            TextParser tp = new TextParser();
+            List<string> words = tp.seperateWords(curLine);
 
-            actor = extractActor(curLine, out endPos);
-            text = extractText(curLine, ref endPos);
-            animation = extractAnimation(curLine, ref endPos);
+            actor = words[1];
+            int lastWord = 0;
+
+            for (int i = 2; i < words.Count; i++)
+            {
+                if (words[i].EndsWith(")"))
+                {
+                    text += words[i].Substring(0, words[i].Length - 2);
+                    lastWord = i;
+                    break;
+                }
+
+                else if (words[i].StartsWith("("))
+                    text += words[i].Substring(1) + " ";
+
+                else
+                    text += words[i] + " ";
+            }
+
+            animation = words[lastWord + 1];
             actionType = ActionType.Speak;
-
-            Console.WriteLine("Parsed a speak action! " + actor + " will say '" + text + "' with animation " + animation);
         }
 
-        private string extractAnimation(string curLine, ref int endPos)
+        public void Draw(SpriteFont font, Texture2D bgtex, SpriteBatch spriteBatch)
         {
-            bool foundAnim = false;
-            endPos += 7;
-            char[] charArray = curLine.Substring(endPos).ToCharArray();
-            string anim = "";
-            endPos = 0;
-
-            while (!foundAnim)
+            for (int i = 32; i < 768; i += 16)
             {
-                if (endPos == charArray.Length)
-                    foundAnim = true;
-                else
-                    anim += charArray[endPos].ToString();
-
-                endPos++;
+                spriteBatch.Draw(bgtex, new Rectangle(i, 440, 16, 128), Color.White);
             }
 
-            Console.WriteLine("Parsed speaker animation " + anim);
-            return anim;
-        }
+            float xlen = font.MeasureString(text).X;
+            float height = font.MeasureString(text).Y;
 
-        private string extractText(string curLine, ref int endPos)
-        {
-            bool foundText = false;
-            char[] charArray = curLine.Substring(endPos).ToCharArray();
-            string text = "";
-            endPos += 1;
-
-            while (!foundText)
+            if (font.MeasureString(text).X > 736)
             {
-                if (charArray[endPos] == ')')
-                    foundText = true;
-                else
-                    text += charArray[endPos].ToString();
-
-                endPos++;
             }
-
-            Console.WriteLine("Added spoken text: '" + text + "'");
-            return text;
-        }
-
-        private string extractActor(string curLine, out int endPos)
-        {
-            bool foundCharacter = false;
-            endPos = 0;
-            char[] charArray = curLine.Substring(6).ToCharArray();
-            string ActorName = "";
-
-            while (!foundCharacter)
+            else
             {
-                if (charArray[endPos] == ' ')
-                    foundCharacter = true;
-                else
-                    ActorName += charArray[endPos].ToString();
-
-                endPos++;
+                spriteBatch.DrawString(font, text, new Vector2(400 - (int)xlen / 2, 504 - (int)height / 2), Color.Black);
             }
-
-            Console.WriteLine("Extracted Speaker Name " + ActorName);
-            return ActorName;
-        }
-
-        public void loadContent(ContentManager Content)
-        {
-            
         }
     }
 }
