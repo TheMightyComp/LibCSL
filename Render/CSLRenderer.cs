@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Media;
 using LibCSL;
 using LibCSL.Core;
 using LibCSL.Util;
+using LibCSL.Actions;
 
 
 namespace LibCSL.Render
@@ -22,6 +23,7 @@ namespace LibCSL.Render
         private int curEventID;
         private Event curEvent;
         Texture2D speechTex;
+        Texture2D fadeTex;
         SpriteFont font;
 
         KeyboardState lastKState;
@@ -30,6 +32,7 @@ namespace LibCSL.Render
         GamePadState gState;
         int millis;
         bool done;
+
         public bool IsDone
         {
             get
@@ -45,9 +48,9 @@ namespace LibCSL.Render
             lastGState = gState;
             gState = GamePad.GetState(PlayerIndex.One);
      
-
             if (!done)
             {
+                #region Event change code
                 if (curEvent.finishedOn == FinishedID.onAction)
                 {
                     if ((kState.IsKeyDown(Keys.Space) && lastKState.IsKeyUp(Keys.Space)) || (gState.IsButtonDown(Buttons.A) && lastGState.IsButtonUp(Buttons.A)))
@@ -84,13 +87,32 @@ namespace LibCSL.Render
                         millis = 0;
                     }
                 }
+                #endregion
+
+                #region Action updates
+                foreach (Actions.Action curAct in curEvent.actions)
+                {
+                    if (curAct.actionType == ActionType.Move)
+                    {
+                        MoveAction move = curAct as MoveAction;
+                        Actor act = scene.getActor(move.actor);
+                        move.update(ref act, millis);
+                    }
+                    else if (curAct.actionType == ActionType.Fade)
+                    {
+                        FadeAction fade = curAct as FadeAction;
+                        fade.Update(gameTime);
+                    }
+                    
+                }
+                #endregion
             }
 
         }
 
         public void render(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
             
             spriteBatch.Draw(scene.background.texture, new Rectangle(0, 0, 800, 600), Color.White);
             
@@ -101,11 +123,17 @@ namespace LibCSL.Render
 
             foreach (Actions.Action curAction in curEvent.actions)
             {
-                if (curAction.actionType == Actions.ActionType.Speak)
+                if (curAction.actionType == ActionType.Speak)
                 {
-                    Actions.SpeakAction speak = curAction as Actions.SpeakAction;
+                    SpeakAction speak = curAction as SpeakAction;
                     speak.Draw(font, speechTex, spriteBatch);
                 }
+                else if (curAction.actionType == ActionType.Fade)
+                {
+                    FadeAction fade = curAction as FadeAction;
+                    fade.Draw(spriteBatch, fadeTex);
+                }
+                //Move modifies actor positions - no draw call needed
             }
 
             spriteBatch.End();
@@ -120,9 +148,9 @@ namespace LibCSL.Render
             foreach (KeyValuePair<String, Actor> curActor in scene.actors)
             {
                 curActor.Value.loadTexture(Content);
-
             }
 
+            fadeTex = Content.Load<Texture2D>(Globals.getValue("LibCSLContentPath") + "Fade");
             speechTex = Content.Load<Texture2D>(Globals.getValue("LibCSLContentPath") + "Speech");
             font = Content.Load<SpriteFont>(Globals.getValue("LibCSLContentPath") + "Dialogue");
 

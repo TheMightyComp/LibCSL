@@ -32,7 +32,7 @@ namespace LibCSL.Actions
             {
                 if (words[i].EndsWith(")"))
                 {
-                    text += words[i].Substring(0, words[i].Length - 2);
+                    text += words[i].Substring(0, words[i].Length - 1);
                     lastWord = i;
                     break;
                 }

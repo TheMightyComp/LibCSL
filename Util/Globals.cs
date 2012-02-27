@@ -17,37 +17,15 @@ namespace LibCSL.Util
             string value = "";
             globals = new Dictionary<string, string>();
             string curLine;
-            char[] charArray;
+            TextParser tp = new TextParser();
 
             while (!(reader.EndOfStream))
             {
-                
                 curLine = reader.ReadLine();
-                Console.WriteLine("Read line " + curLine);
-                charArray = curLine.ToCharArray();
-                int endChar = 0;
-                key = "";
-                value = "";
-
-                for (int i = 0; i < charArray.Length; i++)
-                {
-                    if (charArray[i] == ' ')
-                    {
-                        endChar = i;
-                        break;
-                    }
-
-                    key += charArray[i];
-                }
-
-                for (int i = endChar + 1; i < charArray.Length; i++)
-                {
-                    if (charArray[i] == ' ')
-                        break;
-
-                    value += charArray[i];
-                }
-
+                if (tp.seperateWords(curLine).Count < 2)
+                    break;
+                key = tp.seperateWords(curLine)[0];
+                value = tp.seperateWords(curLine)[1];
 
                 globals.Add(key, value);
                 Console.WriteLine("Added key " + key + " with value " + value);

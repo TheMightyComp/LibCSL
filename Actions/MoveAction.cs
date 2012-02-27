@@ -5,6 +5,7 @@ using System.Text;
 using LibCSL.Core;
 using Microsoft.Xna;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace LibCSL.Actions
 {
@@ -14,6 +15,8 @@ namespace LibCSL.Actions
         public Vector2 target;
         public string animation;
         public int time;
+        private float ratio;
+        private Vector2 origPos = Vector2.Zero;
 
         public override void parse(string curLine)
         {
@@ -37,7 +40,25 @@ namespace LibCSL.Actions
             time = int.Parse(words[5]);
 
             actionType = ActionType.Move;
+        }
 
-        }        
+        public void update(ref Actor actor, int millis)
+        {
+            if (origPos == Vector2.Zero)
+            {
+                origPos = actor.coordinate;
+            }
+            if (millis >= time || (millis == 0 && origPos == Vector2.Zero))
+            {
+                actor.coordinate = target;
+            }
+            else
+            {
+                ratio = (float)(millis) / (float)(time);;
+                actor.coordinate = Vector2.Lerp(origPos, target, ratio);
+                actor.coordinate.X = (float)((int)(actor.coordinate.X));
+                actor.coordinate.Y = (float)((int)(actor.coordinate.Y));
+            }
+        }
     }
 }

@@ -13,6 +13,10 @@ namespace LibCSL.Core
         public Dictionary<string, Actor> actors;  //A dictionary of all the actors - keys are matched by name
         public Background background;
 
+        public Actor getActor(string id)
+        {
+            return actors[id];
+        }
 
         public Scene(string ID, string EnglishName, List<Event> Events, List<Actor> Actors, Background BGround)
         {
