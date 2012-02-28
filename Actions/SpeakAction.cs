@@ -26,25 +26,34 @@ namespace LibCSL.Actions
             List<string> words = tp.seperateWords(curLine);
 
             actor = words[1];
-            int lastWord = 0;
+
+
+            if (words.Count == 4)
+            {
+                text = words[2].Substring(1, words[2].Length - 2);
+            }
+
+            else
+            {
+            
 
             for (int i = 2; i < words.Count; i++)
             {
                 if (words[i].EndsWith(")"))
                 {
                     text += words[i].Substring(0, words[i].Length - 1);
-                    lastWord = i;
                     break;
                 }
 
-                else if (words[i].StartsWith("("))
+                if (words[i].StartsWith("("))
                     text += words[i].Substring(1) + " ";
 
                 else
                     text += words[i] + " ";
             }
+        }
 
-            animation = words[lastWord + 1];
+            animation = words[words.Count - 1];
             actionType = ActionType.Speak;
         }
 

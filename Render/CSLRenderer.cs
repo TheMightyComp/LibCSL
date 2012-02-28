@@ -96,7 +96,7 @@ namespace LibCSL.Render
                     {
                         MoveAction move = curAct as MoveAction;
                         Actor act = scene.getActor(move.actor);
-                        move.update(ref act, millis);
+                        move.update(ref act, gameTime);
                     }
                     else if (curAct.actionType == ActionType.Fade)
                     {
@@ -157,6 +157,27 @@ namespace LibCSL.Render
             curEvent = scene.events[curEventID];
             done = false;
             
+        }
+
+        public CSLRenderer(string name, ContentManager Content)
+        {
+            CSLParser cp = new CSLParser();
+
+            this.scene = cp.parseCSL(Globals.getValue("CutscenePath") + name);
+            curEventID = 0;
+            scene.background.loadTexture(Content);
+
+            foreach (KeyValuePair<String, Actor> curActor in scene.actors)
+            {
+                curActor.Value.loadTexture(Content);
+            }
+
+            fadeTex = Content.Load<Texture2D>(Globals.getValue("LibCSLContentPath") + "Fade");
+            speechTex = Content.Load<Texture2D>(Globals.getValue("LibCSLContentPath") + "Speech");
+            font = Content.Load<SpriteFont>(Globals.getValue("LibCSLContentPath") + "Dialogue");
+
+            curEvent = scene.events[curEventID];
+            done = false;
         }
     }
 }

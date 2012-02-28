@@ -17,6 +17,7 @@ namespace LibCSL.Actions
         public int time;
         private float ratio;
         private Vector2 origPos = Vector2.Zero;
+        public int millis = 0;
 
         public override void parse(string curLine)
         {
@@ -40,10 +41,13 @@ namespace LibCSL.Actions
             time = int.Parse(words[5]);
 
             actionType = ActionType.Move;
+
         }
 
-        public void update(ref Actor actor, int millis)
+        public void update(ref Actor actor, GameTime gameTime)
         {
+            millis += gameTime.ElapsedGameTime.Milliseconds;
+
             if (origPos == Vector2.Zero)
             {
                 origPos = actor.coordinate;

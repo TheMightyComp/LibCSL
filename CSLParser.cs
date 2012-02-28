@@ -188,11 +188,11 @@ namespace LibCSL
         private void extractActions(StreamReader file, out List<LibCSL.Actions.Action> actions)
         {
             string curLine;
-            bool foundAllEvents = false;
+            bool foundAllActions = false;
             actions = new List<Actions.Action>();
             int actionCount = 0;
 
-            while (!foundAllEvents)
+            while (!foundAllActions)
             {
                 curLine = file.ReadLine();
 
@@ -221,7 +221,7 @@ namespace LibCSL
                 }
 
                 if (curLine.StartsWith("EndEvent"))
-                    foundAllEvents = true;
+                    foundAllActions = true;
 
             }
         }
