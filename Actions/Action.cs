@@ -7,6 +7,7 @@ namespace LibCSL.Actions
 {
     public class Action
     {
+        public bool derp = false;
         public virtual void execute() //Children of Action define their own execution methods
         {
         }

@@ -46,6 +46,7 @@ namespace LibCSL.Actions
 
         public void update(ref Actor actor, GameTime gameTime)
         {
+            actor.curAnim = this.animation;
             millis += gameTime.ElapsedGameTime.Milliseconds;
 
             if (origPos == Vector2.Zero)
@@ -55,6 +56,7 @@ namespace LibCSL.Actions
             if (millis >= time || (millis == 0 && origPos == Vector2.Zero))
             {
                 actor.coordinate = target;
+                actor.curAnim = "Idle";
             }
             else
             {

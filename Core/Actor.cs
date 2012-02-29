@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using LibCSL.Util;
+using LibCSL.Render;
 
 
 namespace LibCSL.Core
@@ -19,21 +20,36 @@ namespace LibCSL.Core
         public string name;
         public Vector2 coordinate;
         public Texture2D texture;
+        Dictionary<String, Animation> anims;
+        public String curAnim = "Idle";
+        
 
         public Actor(string Name, string Path, Vector2 Coordinate)
         {
             name = Name;
             coordinate = Coordinate;
+            anims = new Dictionary<string, Animation>();
         }
 
-        public void loadTexture(ContentManager Content)
+        public void Update(GameTime gameTime)
         {
-            texture = Content.Load<Texture2D>(Globals.getValue("StandardSpritePath") + name);
+            anims[curAnim].update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, coordinate, Color.White);
+            anims[curAnim].Draw(spriteBatch, coordinate);
+        }
+
+        public void addAnim(string path, AnimationMode am, ContentManager Content, int frames)
+        {
+           Texture2D tex = Content.Load<Texture2D>(Globals.getValue("StandardSpritePath") + name + "/" + path);
+           anims.Add(path, new Animation(tex.Width / frames, tex.Height, tex, am, (int.Parse(Globals.getValue("DefaultFrameRate")))));
+        }
+
+        public bool hasAnim(string ani)
+        {
+            return anims.ContainsKey(ani);
         }
     }
 }

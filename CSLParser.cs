@@ -134,7 +134,6 @@ namespace LibCSL
                     FinishedID finishedOn;
                     int time;
                     List<LibCSL.Actions.Action> actions;
-                    Event foundEvent;
 
                     extractEventHeaderFromLine(curLine, out id, out finishedOn, out time);
 

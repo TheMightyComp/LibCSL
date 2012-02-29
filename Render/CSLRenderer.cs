@@ -106,6 +106,11 @@ namespace LibCSL.Render
                     
                 }
                 #endregion
+
+                foreach (Actor a in scene.actors.Values)
+                {
+                    a.Update(gameTime);
+                }
             }
 
         }
@@ -145,14 +150,32 @@ namespace LibCSL.Render
             curEventID = 0;
             scene.background.loadTexture(Content);
 
-            foreach (KeyValuePair<String, Actor> curActor in scene.actors)
+            /* foreach (KeyValuePair<String, Actor> curActor in scene.actors)
             {
                 curActor.Value.loadTexture(Content);
-            }
+            } */
 
             fadeTex = Content.Load<Texture2D>(Globals.getValue("LibCSLContentPath") + "Fade");
             speechTex = Content.Load<Texture2D>(Globals.getValue("LibCSLContentPath") + "Speech");
             font = Content.Load<SpriteFont>(Globals.getValue("LibCSLContentPath") + "Dialogue");
+            foreach (Event e in scene.events)
+            {
+                foreach (Actions.Action a in e.actions)
+                {
+                    if (a.actionType == ActionType.Move)
+                    {
+                        MoveAction m = a as MoveAction;
+                        if (!scene.actors[m.actor].hasAnim(m.animation))
+                        {
+                            scene.actors[m.actor].addAnim(m.animation, AnimationMode.Loop, Content, 4);
+                        }
+                    }
+                }
+
+            }
+
+            curEvent = scene.events[curEventID];
+            done = false;
 
             curEvent = scene.events[curEventID];
             done = false;
@@ -167,9 +190,25 @@ namespace LibCSL.Render
             curEventID = 0;
             scene.background.loadTexture(Content);
 
-            foreach (KeyValuePair<String, Actor> curActor in scene.actors)
+            /* foreach (KeyValuePair<String, Actor> curActor in scene.actors)
             {
                 curActor.Value.loadTexture(Content);
+            } */
+
+            foreach (Event e in scene.events)
+            {
+                foreach (Actions.Action a in e.actions)
+                {
+                    if (a.actionType == ActionType.Move)
+                    {
+                        MoveAction m = a as MoveAction;
+                        if (!scene.actors[m.actor].hasAnim(m.animation))
+                        {
+                            scene.actors[m.actor].addAnim(m.animation, AnimationMode.Loop, Content, 4);
+                        }
+                    }
+                }
+
             }
 
             fadeTex = Content.Load<Texture2D>(Globals.getValue("LibCSLContentPath") + "Fade");
